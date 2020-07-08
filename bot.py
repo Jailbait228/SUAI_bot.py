@@ -96,7 +96,10 @@ async def start(ctx):
         while True:
             try:
                 sheet = client.open("test").get_worksheet(numsheet)
-                sheet.get_all_records()
+                #For sheet 'plan'
+                cell2 = sheet.cell(1,1).value
+                if cell2 == 'Upd:':
+                    break
                 result = [int(item) for item in col1[2:]]
                 hight = max(result)
                 g = 3
@@ -127,3 +130,5 @@ async def start(ctx):
        
 #bot tocken
 Bot.run("NzI5MjY2NTgyMzIwMTg1Mzc1.XwOm_g.FMp3Zb7HPfBPUmeIukyk-8WYM7c")  
+#In the end a want to say that these code can be changed, bacause it is not ideal
+#and it can have some problems.  

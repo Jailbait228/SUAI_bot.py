@@ -27,4 +27,4 @@ SUAIbot documentation
 	pip install gspread oauth2client
 Более подробную инструкцию можно узнать по ссылке : 
 
-	https://www.youtube.com/watch?v=cnPlKLEGR7E
+https://www.youtube.com/watch?v=cnPlKLEGR7E

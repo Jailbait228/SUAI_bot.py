@@ -20,8 +20,8 @@ SUAIbot documentation
 		на правой кнопкой мыши на роль (копировать ID) в 
 		режиме разработчика (всключается в настройках))
 Запуск 
-python bot.py
-Установка необходимых дополнительных библиотек
-pip install gspread oauth2client
+	python bot.py
+Установка необходимых дополнительных библиотек:
+	'pip install gspread oauth2client'
 Более подробную инструкцию можно узнать по ссылке : 
-https://www.youtube.com/watch?v=cnPlKLEGR7E
+	https://www.youtube.com/watch?v=cnPlKLEGR7E

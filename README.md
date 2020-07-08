@@ -24,7 +24,7 @@ SUAIbot documentation
 	python bot.py
 Установка необходимых дополнительных библиотек:
 
-	pip install doscord.py
+	pip install discord.py
 	pip install gspread oauth2client
 Более подробную инструкцию для работы с таблицами можно узнать по ссылке : 
 

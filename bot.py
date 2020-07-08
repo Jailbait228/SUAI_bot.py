@@ -22,56 +22,93 @@ async def on_ready():
 
 @Bot.command(pass_context=True)
 async def start(ctx):
+    channel = Bot.get_channel(730145508106043413)
+    await channel.send('<------------------------------->')
     role = ctx.message.guild.get_role(729285717628420106)
     await ctx.message.delete() 
     if role in ctx.message.author.roles:
         ctx1 = await ctx.send("Присутствующие")
         await ctx1.add_reaction("☑️")
-        await asyncio.sleep(10)
+        await asyncio.sleep(5)
         ctx1 = await ctx1.channel.fetch_message(ctx1.id)
+        ctx2 = await ctx.send("`Расчет окончен`")
         for reaction in ctx1.reactions:
             if reaction.emoji == "☑️":
                 positive = reaction
         users = await positive.users().flatten()
-        pprint(users)
+        sheet = client.open("test").worksheet("1703")
+        try:
+            users[1]
+        except: 
+            await ctx1.delete()
+            return
         for i in users:
             if i.bot is False:
                 name = i.display_name.split(' ')
                 day = 0
                 try: 
-                    check = name[2]
+                    name[2]
                 except:
-                    pprint('Error user {}'.format(name))
+                    await channel.send('Error user {}'.format(name))
                     continue
-                if name[2] == '1703':
-                    sheet = client.open("test").sheet1
-                    g = 3
-                    while g<7:
-                        cell = sheet.cell(g,2).value
-                        name1 = cell.split(' ')
-                        if name1[1] == name[0]:
-                            j = 11
+                await channel.send(name)
+                g = 3
+                sheet = client.open("test").worksheet(name[2])
+                col1 = sheet.col_values(1)
+                result = [int(item) for item in col1[2:]]
+                hight = max(result)
+                lenght = 2
+                while g<hight+3:
+                    cell = sheet.cell(g,2).value
+                    name1 = cell.split(' ')
+                    if name1[1] == name[0]:
+                        if name1[0] == name[1]:
                             while True:
-                                cell_lesson = sheet.cell(g,j).value
+                                cell = sheet.cell(2,lenght).value
+                                try:
+                                    int(cell[0:2])
+                                    break
+                                except:
+                                    lenght += 1
+                            while True:
+                                cell_day = sheet.cell(2,lenght).value
+                                cell_lesson = sheet.cell(g,lenght).value      
                                 if cell_lesson == '-':
                                     if day == 0:
-                                        day = j
+                                        day = lenght
                                     sheet.update_cell(g,day, 1)
                                     await asyncio.sleep(2)
                                     break
                                 else:
-                                    j = j + 1
+                                    lenght += 1
                             break
-                        g = g + 1
-        g = 3
-        sheet = client.open("test").sheet1
-        while g<7:
-            cell = sheet.cell(g,day).value
-            if cell == "-":
-                sheet.update_cell(g,day, 0)
-                await asyncio.sleep(2)
-            g = g + 1   
+                    g = g + 1
+        
+        numsheet = 0
+        while True:
+            try:
+                sheet = client.open("test").get_worksheet(numsheet)
+                sheet.get_all_records()
+                result = [int(item) for item in col1[2:]]
+                hight = max(result)
+                g = 3
+                while g<hight+3:
+                    while True:
+                        cell = sheet.cell(2,lenght).value
+                        if cell == cell_day:
+                            break
+                        else:
+                            lenght += 1
+                    cell = sheet.cell(g,lenght).value
+                    if cell == "-":
+                        sheet.update_cell(g,lenght, 0)
+                        await asyncio.sleep(2)
+                    g = g + 1
+                numsheet += 1
+            except:
+                break
         await ctx1.delete() 
+        await ctx2.delete()
         ctx1 = await ctx.send("`Выполнено`")
         await asyncio.sleep(10)         
     else:

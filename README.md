@@ -1,4 +1,4 @@
-SUAIbot documentation
+# SUAIbot documentation
 
 Данный бот предназначен для автоматизации отметки посечений лекционнаых занятий в дискорде.
 Основые команды:
@@ -21,10 +21,10 @@ SUAIbot documentation
 		режиме разработчика (всключается в настройках))
 ![](reaction.png)
 
-# Запуск 
+## Запуск 
 
 	python bot.py
-# Установка необходимых дополнительных библиотек:
+## Установка необходимых дополнительных библиотек:
 
 	pip install discord.py
 	pip install gspread oauth2client

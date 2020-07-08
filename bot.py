@@ -22,19 +22,25 @@ async def on_ready():
 
 @Bot.command(pass_context=True)
 async def start(ctx):
+    #Put private log channel's id
     channel = Bot.get_channel(730145508106043413)
+    #Send message to this channel
     await channel.send('<------------------------------->')
+    #Put role's id
     role = ctx.message.guild.get_role(729285717628420106)
     await ctx.message.delete() 
     if role in ctx.message.author.roles:
+        #Sending message and adding reaction
         ctx1 = await ctx.send("Присутствующие")
         await ctx1.add_reaction("☑️")
         await asyncio.sleep(5)
+        #Fix message's reaction
         ctx1 = await ctx1.channel.fetch_message(ctx1.id)
         ctx2 = await ctx.send("`Расчет окончен`")
         for reaction in ctx1.reactions:
             if reaction.emoji == "☑️":
                 positive = reaction
+        #Take all users which added reaction
         users = await positive.users().flatten()
         sheet = client.open("test").worksheet("1703")
         try:
@@ -42,6 +48,7 @@ async def start(ctx):
         except: 
             await ctx1.delete()
             return
+        #Working with google table
         for i in users:
             if i.bot is False:
                 name = i.display_name.split(' ')
@@ -58,6 +65,7 @@ async def start(ctx):
                 result = [int(item) for item in col1[2:]]
                 hight = max(result)
                 lenght = 2
+                #For students which a here (on lesson)
                 while g<hight+3:
                     cell = sheet.cell(g,2).value
                     name1 = cell.split(' ')
@@ -83,7 +91,7 @@ async def start(ctx):
                                     lenght += 1
                             break
                     g = g + 1
-        
+        #For people who are not here
         numsheet = 0
         while True:
             try:
@@ -107,6 +115,7 @@ async def start(ctx):
                 numsheet += 1
             except:
                 break
+        #Clear text channel
         await ctx1.delete() 
         await ctx2.delete()
         ctx1 = await ctx.send("`Выполнено`")
@@ -116,5 +125,5 @@ async def start(ctx):
         await asyncio.sleep(10)
     await ctx1.delete() 
        
-
+#bot tocken
 Bot.run("NzI5MjY2NTgyMzIwMTg1Mzc1.XwOm_g.FMp3Zb7HPfBPUmeIukyk-8WYM7c")  
